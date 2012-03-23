@@ -70,32 +70,27 @@ function mao_block_view($delta = '') {
     case 'mao':
       if (user_access('view mao na massa side block')) {
         $block['subject'] = t('Current posts');
-        if(user_access('access content')){
-          $result = mao_contents();
-          $items = array();
-          foreach ($result as $node){
-            $items[] = array(
-              'data' => l($node->title, 'node/' . $node->nid),
-            );
-          }
-
-          if (empty($items)) {
-            $block['content'] = t('No posts available.');
-          }
-          else {
-            $block['content'] = theme('item_list', array('items' => $items));
-          }
+        $result = mao_contents();
+        $items = array();
+        foreach ($result as $node){
+          $items[] = array(
+            'data' => l($node->title, 'node/' . $node->nid),
+          );
         }
+
+        if (empty($items)) {
+          $block['content'] = t('No posts available.');
+        }
+        else {
+          $block['content'] = theme('item_list', array('items' => $items));
+        }
+
       }
   }
   return $block;
 }
 
 function mao_contents(){
-  $today = getdate();
-  $start_time = mktime(0, 0, 0,$today['mon'],($today['mday'] - 7), $today['year']);
-  $end_time = time();
-
   $max_num = variable_get('mao_max', 3);
   $content_type = variable_get('mao_type', 0);
 
@@ -104,7 +99,6 @@ function mao_contents(){
       ->fields('n', array('nid', 'title', 'created'))
       ->condition('status', 1)
       ->condition('type', $content_type)
-      ->condition('created', array($start_time, $end_time), 'BETWEEN')
       ->orderBy('created', 'DESC')
       ->range(0, $max_num)
       ->execute();
@@ -112,7 +106,6 @@ function mao_contents(){
     $query = db_select('node', 'n')
       ->fields('n', array('nid', 'title', 'created'))
       ->condition('status', 1)
-      ->condition('created', array($start_time, $end_time), 'BETWEEN')
       ->orderBy('created', 'DESC')
       ->range(0, $max_num)
       ->execute();
