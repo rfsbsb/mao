@@ -6,10 +6,6 @@
 * @see mao_menu()
 */
 function mao_form($form, &$form_state) {
-  $vocabs = array_keys(taxonomy_get_vocabularies());
-
-  taxonomy_get_tree($vocabs[0]);
-
   $form['mao_max'] = array(
     '#type' => 'textfield',
     '#title' => t('Maximum number of posts'),
