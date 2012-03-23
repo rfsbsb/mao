@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Implements hook_install().
+ *
+ * @ingroup block_example
+ */
+function mao_install() {
+  variable_set('mao_max', 3);
+  variable_set('mao_type', 0);
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * @ingroup block_example
+ */
+function mao_uninstall() {
+  variable_del('mao_max');
+  variable_del('mao_type');
+}

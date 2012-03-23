@@ -1,0 +1,6 @@
+name = Mão na Massa
+description = Um módulo para o nosso curso
+core = 7.x
+package = Custom
+version = VERSION
+configure = admin/config/content/mao
